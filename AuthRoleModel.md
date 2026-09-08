@@ -220,18 +220,6 @@ public enum InvitationStatus {
 }
 ```
 
-POST /api/workflows/{workflowId}/invitations
-
-Request
-```Json
-{
-  "userId": "keycloak-sub-123",
-  "role": "EDITOR"
-}
-```
-
-POST /api/workflow-invitations/{invitationId}/accept
-
 ```Java
 public boolean canEdit(Long workflowId, CurrentUser user) {
 
@@ -274,7 +262,7 @@ public record WorkflowExecutionContext(
 ) {}
 ```
 
-API ontwerp
+# API ontwerp
 * GET /api/workflows/{workflowId}/members
 * POST /api/workflows/{workflowId}/invitations
 * GET /api/workflow-invitations
@@ -284,6 +272,7 @@ API ontwerp
 * DELETE /api/workflows/{workflowId}/members/{userId}
 * PATCH /api/workflows/{workflowId}/members/{userId}
 
+## Java model
 ```
                          ┌─────────────────────┐
                          │      Keycloak       │
