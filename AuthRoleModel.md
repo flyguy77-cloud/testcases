@@ -24,11 +24,78 @@
 
 ```Java
 public enum WorkflowRole {
-    OWNER,
     EDITOR,
     VIEWER
 }
+
+public enum InvitationStatus {
+    PENDING,
+    ACCEPTED,
+    DECLINED,
+    REVOKED,
+    EXPIRED
+}
+
+public enum WorkflowPermission {
+    VIEW,
+    EDIT,
+    EXECUTE,
+    MANAGE_MEMBERS,
+    DELETE
+}
 ```
+
+# Records
+```Java
+public record WorkflowMemberDto(
+    Long id,
+    String userId,
+    WorkflowRole role,
+    Instant createdAt,
+    String createdBy
+) {}
+
+public record WorkflowInvitationDto(
+    Long id,
+    Long workflowId,
+    String invitedUserId,
+    String invitedBy,
+    WorkflowRole role,
+    InvitationStatus status,
+    Instant createdAt,
+    Instant expiresAt,
+    Instant acceptedAt
+) {}
+
+public record CreateWorkflowInvitationRequest(
+    String userId,
+    WorkflowRole role
+) {}
+
+public record UpdateWorkflowMemberRoleRequest(
+    WorkflowRole role
+) {}
+```
+
+## Response
+```Json
+{
+  "id": 123,
+  "name": "Rapportage workflow",
+  "description": "Genereert kwartaalrapportage",
+  "ownerUserId": "1f3d...",
+  "access": {
+    "owner": false,
+    "role": "EDITOR",
+    "permissions": [
+      "VIEW",
+      "EDIT",
+      "EXECUTE"
+    ]
+  }
+}
+```
+
 
 ```sql
 workflow
@@ -65,7 +132,10 @@ expires_at
 accepted_at
 ```
 
+### workflow_member
 ```sql
+-- Vxx__create_workflow_member.sql
+
 CREATE TABLE workflow_member (
     id BIGSERIAL PRIMARY KEY,
 
@@ -74,7 +144,7 @@ CREATE TABLE workflow_member (
 
     role VARCHAR(32) NOT NULL,
 
-    created_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     created_by VARCHAR(255) NOT NULL,
 
     CONSTRAINT fk_workflow_member_workflow
@@ -82,9 +152,62 @@ CREATE TABLE workflow_member (
         REFERENCES workflow(id)
         ON DELETE CASCADE,
 
-    CONSTRAINT uq_workflow_member
+    CONSTRAINT uq_workflow_member_workflow_user
         UNIQUE (workflow_id, user_id)
 );
+
+CREATE INDEX idx_workflow_member_user_id
+    ON workflow_member(user_id);
+
+CREATE INDEX idx_workflow_member_workflow_id
+    ON workflow_member(workflow_id);
+```
+### inventations
+```sql
+CREATE TABLE workflow_invitation (
+    id BIGSERIAL PRIMARY KEY,
+
+    workflow_id BIGINT NOT NULL,
+
+    invited_user_id VARCHAR(255) NOT NULL,
+    invited_by VARCHAR(255) NOT NULL,
+
+    role VARCHAR(32) NOT NULL,
+    status VARCHAR(32) NOT NULL,
+
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    expires_at TIMESTAMP WITH TIME ZONE,
+    accepted_at TIMESTAMP WITH TIME ZONE,
+
+    CONSTRAINT fk_workflow_invitation_workflow
+        FOREIGN KEY (workflow_id)
+        REFERENCES workflow(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT chk_workflow_invitation_role
+        CHECK (role IN ('EDITOR', 'VIEWER')),
+
+    CONSTRAINT chk_workflow_invitation_status
+        CHECK (
+            status IN (
+                'PENDING',
+                'ACCEPTED',
+                'DECLINED',
+                'REVOKED',
+                'EXPIRED'
+            )
+        )
+);
+
+CREATE INDEX idx_workflow_invitation_invited_user
+    ON workflow_invitation(invited_user_id);
+
+CREATE INDEX idx_workflow_invitation_workflow
+    ON workflow_invitation(workflow_id);
+
+CREATE UNIQUE INDEX uq_workflow_invitation_pending
+    ON workflow_invitation(workflow_id, invited_user_id)
+    WHERE status = 'PENDING';
 ```
 
 ```Java
