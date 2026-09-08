@@ -1,3 +1,8 @@
+> * Begrijpen
+> * Wegen
+> * Besluiten
+
+## De kapstok
 | Fase | Aspect | Centrale vraag |
 |---|---|---|
 | **1. Waarom?** | **Doel** | Welk probleem moeten we daadwerkelijk oplossen? Wat is de gewenste uitkomst? |
@@ -17,6 +22,37 @@
 | **8. Beslis** | **Besluitmoment** | Hebben we voldoende informatie? Wat besluiten we, waarom en wie neemt verantwoordelijkheid? |
 | **9. Voer beheerst uit** | **Rollback** | Wat doen we wanneer de implementatie niet werkt? Wanneer stoppen we en wanneer draaien we terug? |
 | **10. Leer** | **Monitoren / bijsturen** | Werkt de beslissing zoals verwacht? Welke signalen volgen we en wanneer heroverwegen we de keuze? |
+
+## tijd/urgentie
+```
+                    URGENTIE
+                       │
+          ┌────────────┴────────────┐
+          ↓                         ↓
+         HOOG                      LAAG
+          │                         │
+    sneller handelen         meer tijd voor
+          │                  analyse/afstemming
+          ↓                         ↓
+     OMKEERBAAR?               GROTE IMPACT?
+       /      \                  /       \
+     JA       NEE               JA       NEE
+      ↓         ↓                ↓         ↓
+ tijdelijk   risico           zorgvuldig  relatief
+ ingrijpen   beperken         valideren   eenvoudig
+```
+
+* productie herstellen;
+* impact communiceren;
+* feiten verzamelen;
+* geen schuldige aanwijzen;
+* wijzigingsproces onderzoeken;
+* medior ondersteunen;
+* tijdelijke risicomaatregelen;
+* peer review verbeteren;
+* duidelijke verantwoordelijkheden;
+* blameless postmortem;
+* leren en opvolgen.
 
 Waarom? → Wanneer? → Kan het? → Is het verstandig? → Met wie? → Welke keuzes? → Eerst toetsen? → Besluiten → Beheerst uitvoeren → Leren
 
