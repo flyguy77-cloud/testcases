@@ -162,7 +162,7 @@ CREATE INDEX idx_workflow_member_user_id
 CREATE INDEX idx_workflow_member_workflow_id
     ON workflow_member(workflow_id);
 ```
-### invintations
+### invitations
 ```sql
 CREATE TABLE workflow_invitation (
     id BIGSERIAL PRIMARY KEY,
