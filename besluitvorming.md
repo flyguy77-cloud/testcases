@@ -26,6 +26,10 @@
 >    - Proactiviteit (Vooruitkijken; vraag wat kan misgaan, welke afhankelijkheden zie ik, wie moet dit weten, welke monitoring is nodig)
 >    - Uitvoeren en bijsturen (besluit is geen eindpunt; besluiten, handelen, resultaat, observeren, leren, bijsturen)
 
+>[!CAUTION]
+> Assessment waarschijnlijk in de volgende opzet
+> - Informatie verwerken -> structureren -> prioriteren -> afwegen -> besluiten -> onderbouwen -> communiceren
+
 ## Snelle weergave
 > Waarom? → Wanneer? → Kan het? → Is het verstandig? → Met wie? → Welke keuzes? → Eerst toetsen? → Besluiten → Beheerst uitvoeren → Leren
 
