@@ -1,7 +1,7 @@
 > [!TIP]
 > * Begrijpen, Wegen, Besluiten
 
-> [!INFO]
+> [!NOTE]
 > * productie herstellen
 > * impact communiceren
 > * feiten verzamelen
